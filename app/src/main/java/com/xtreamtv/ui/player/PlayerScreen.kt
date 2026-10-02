@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.media3.common.C
+import androidx.media3.common.C as Media3C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Tracks
@@ -151,8 +151,8 @@ fun PlayerScreen(vm: AppViewModel, nav: Nav, req: PlayRequest) {
                     AKeyEvent.KEYCODE_MEDIA_NEXT -> { if (index < req.items.lastIndex) index++; true }
                     AKeyEvent.KEYCODE_MEDIA_PREVIOUS -> { if (index > 0) index--; true }
                     else -> if (controls) false else when (e.nativeKeyEvent.keyCode) {
-                        AKeyEvent.KEYCODE_DPAD_LEFT -> { seekBy(-10_000 * (1 + minOf(e.nativeKeyEvent.repeatCount / 3, 6))); miniTick++; true }
-                        AKeyEvent.KEYCODE_DPAD_RIGHT -> { seekBy(10_000 * (1 + minOf(e.nativeKeyEvent.repeatCount / 3, 6))); miniTick++; true }
+                        AKeyEvent.KEYCODE_DPAD_LEFT -> { seekBy(-10_000L * (1 + minOf(e.nativeKeyEvent.repeatCount / 3, 6))); miniTick++; true }
+                        AKeyEvent.KEYCODE_DPAD_RIGHT -> { seekBy(10_000L * (1 + minOf(e.nativeKeyEvent.repeatCount / 3, 6))); miniTick++; true }
                         AKeyEvent.KEYCODE_DPAD_CENTER, AKeyEvent.KEYCODE_ENTER -> { togglePlay(); controls = true; true }
                         AKeyEvent.KEYCODE_DPAD_UP, AKeyEvent.KEYCODE_DPAD_DOWN -> { controls = true; true }
                         else -> false
@@ -178,9 +178,9 @@ fun PlayerScreen(vm: AppViewModel, nav: Nav, req: PlayRequest) {
                 Controls(
                     title = item.title, subtitle = item.subtitle, pos = pos, dur = dur, playing = playing,
                     hasPrev = index > 0, hasNext = index < req.items.lastIndex, playFocus = playFocus,
-                    hasAudio = remember(tracksVersion) { TrackOptions.hasChoices(player, C.TRACK_TYPE_AUDIO) },
-                    hasSubs = remember(tracksVersion) { TrackOptions.hasChoices(player, C.TRACK_TYPE_TEXT) },
-                    hasQuality = remember(tracksVersion) { TrackOptions.hasChoices(player, C.TRACK_TYPE_VIDEO) },
+                    hasAudio = remember(tracksVersion) { TrackOptions.hasChoices(player, Media3C.TRACK_TYPE_AUDIO) },
+                    hasSubs = remember(tracksVersion) { TrackOptions.hasChoices(player, Media3C.TRACK_TYPE_TEXT) },
+                    hasQuality = remember(tracksVersion) { TrackOptions.hasChoices(player, Media3C.TRACK_TYPE_VIDEO) },
                     onPlayPause = ::togglePlay,
                     onSeek = { seekBy(it) },
                     onPrev = { if (index > 0) index-- },
@@ -193,7 +193,7 @@ fun PlayerScreen(vm: AppViewModel, nav: Nav, req: PlayRequest) {
         trackDialog?.let { type ->
             val options = remember(type, tracksVersion) { TrackOptions.list(player, type) }
             TrackDialog(
-                title = when (type) { C.TRACK_TYPE_AUDIO -> "الصوت"; C.TRACK_TYPE_TEXT -> "الترجمة"; else -> "الجودة" },
+                title = when (type) { Media3C.TRACK_TYPE_AUDIO -> "الصوت"; Media3C.TRACK_TYPE_TEXT -> "الترجمة"; else -> "الجودة" },
                 options = options,
                 onPick = { TrackOptions.apply(player, type, it); trackDialog = null },
                 onDismiss = { trackDialog = null },
@@ -244,9 +244,9 @@ private fun Controls(
                     if (hasNext) IconButton(Ic.Next, onNext)
                 }
                 Row(Modifier.align(Alignment.CenterEnd), horizontalArrangement = Arrangement.spacedBy(10.u)) {
-                    if (hasAudio) IconButton(Ic.Audio, { onTracks(C.TRACK_TYPE_AUDIO) }, size = 40)
-                    if (hasSubs) IconButton(Ic.Subs, { onTracks(C.TRACK_TYPE_TEXT) }, size = 40)
-                    if (hasQuality) IconButton(Ic.Quality, { onTracks(C.TRACK_TYPE_VIDEO) }, size = 40)
+                    if (hasAudio) IconButton(Ic.Audio, { onTracks(Media3C.TRACK_TYPE_AUDIO) }, size = 40)
+                    if (hasSubs) IconButton(Ic.Subs, { onTracks(Media3C.TRACK_TYPE_TEXT) }, size = 40)
+                    if (hasQuality) IconButton(Ic.Quality, { onTracks(Media3C.TRACK_TYPE_VIDEO) }, size = 40)
                 }
             }
         }

@@ -34,6 +34,7 @@ val LocalUiScale = compositionLocalOf { 1f }
 val Int.u: Dp @Composable @ReadOnlyComposable get() = (this * LocalUiScale.current).dp
 val Float.u: Dp @Composable @ReadOnlyComposable get() = (this * LocalUiScale.current).dp
 val Int.us: TextUnit @Composable @ReadOnlyComposable get() = (this * LocalUiScale.current).sp
+val Float.us: TextUnit @Composable @ReadOnlyComposable get() = (this * LocalUiScale.current).sp
 
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {

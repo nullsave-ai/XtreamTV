@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.xtreamtv.core.Fmt
 import com.xtreamtv.design.*
 import com.xtreamtv.domain.*
 import com.xtreamtv.ui.AppViewModel
